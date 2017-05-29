@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+	xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+	xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" 
+	xmlns:tns="http://www.ttu.ee/idu0075/2015/ws/theatre" 
+	targetNamespace="http://www.ttu.ee/idu0075/2015/ws/theatre">
+	<wsdl:types>
+		<xs:schema  targetNamespace="http://www.ttu.ee/idu0075/2015/ws/theatre" elementFormDefault="qualified">
+			<xs:complexType name ="ShowType">
+				<xs:sequence>
+					<xs:element name="id" type="xs:integer"/>
+                    <xs:element name="numOfActors" type="xs:integer"/>
+					<xs:element name="name" type="xs:string"/>
+                    <xs:element name="genreOfShow" type="xs:string"/>
+					<xs:element minOccurs="0" name="isAOneManShow">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:pattern value="Yes|No"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+                    <xs:element name="language" type="xs:string"/>
+                    <xs:element name="durationInMins" type="xs:integer"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name ="TheatreShowType">
+				<xs:sequence>
+					<xs:element name="show" type="tns:ShowType"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name ="TheatreShowListType">
+				<xs:sequence>
+					<xs:element minOccurs="0" maxOccurs="unbounded" name="TheatreShow" type="tns:TheatreShowType"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name ="TheatreType">
+				<xs:sequence>
+					<xs:element name="id" type="xs:integer"/>
+					<xs:element name="name" type="xs:string"/>
+					<xs:element name="TheatreShowList" type="tns:TheatreShowListType"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:element name="getShowRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+						<xs:element name="id" type="xs:integer"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getShowResponse" type="tns:ShowType"/>
+			<xs:element name="addShowRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+						<xs:element name="id" type="xs:integer"/>
+						<xs:element name="numOfActors" type="xs:integer"/>
+						<xs:element name="name" type="xs:string"/>
+						<xs:element name="genreOfShow" type="xs:string"/>
+						<xs:element minOccurs="0" name="isAOneManShow">
+							<xs:simpleType>
+								<xs:restriction base="xs:string">
+									<xs:pattern value="Yes|No"/>
+								</xs:restriction>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="language" type="xs:string"/>
+						<xs:element name="durationInMins" type="xs:integer"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="addShowResponse" type="tns:ShowType"/>
+			<xs:element name="getShowListRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getShowListResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="show" type="tns:ShowType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getTheatreRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+						<xs:element name="id" type="xs:integer"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getTheatreResponse" type="tns:TheatreType"/>
+			<xs:element name="addTheatreRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+						<xs:element name="name" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="addTheatreResponse" type="tns:TheatreType"/>
+			<xs:element name="getTheatreListRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getTheatreListResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="theatre" type="tns:TheatreType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getTheatreShowListRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+						<xs:element name="theatreId" type="xs:integer"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="getTheatreShowListResponse" type="tns:TheatreShowListType"/>
+			<xs:element name="addTheatreShowRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="token" type="xs:string"/>
+						<xs:element name="theatreId" type="xs:integer"/>
+						<xs:element name="showId" type="xs:integer"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="addTheatreShowResponse" type="tns:TheatreShowType"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="getShowRequestMessage">
+		<wsdl:part name="parameter" element="tns:getShowRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getShowResponseMessage">
+		<wsdl:part name="parameter" element="tns:getShowResponse"/>
+	</wsdl:message>
+	<wsdl:message name="addShowRequestMessage">
+		<wsdl:part name="parameter" element="tns:addShowRequest"/>
+	</wsdl:message>
+	<wsdl:message name="addShowResponseMessage">
+		<wsdl:part name="parameter" element="tns:addShowResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getShowListRequestMessage">
+		<wsdl:part name="parameter" element="tns:getShowListRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getShowListResponseMessage">
+		<wsdl:part name="parameter" element="tns:getShowListResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getTheatreRequestMessage">
+		<wsdl:part name="parameter" element="tns:getTheatreRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getTheatreResponseMessage">
+		<wsdl:part name="parameter" element="tns:getTheatreResponse"/>
+	</wsdl:message>
+	<wsdl:message name="addTheatreRequestMessage">
+		<wsdl:part name="parameter" element="tns:addTheatreRequest"/>
+	</wsdl:message>
+	<wsdl:message name="addTheatreResponseMessage">
+		<wsdl:part name="parameter" element="tns:addTheatreResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getTheatreListRequestMessage">
+		<wsdl:part name="parameter" element="tns:getTheatreListRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getTheatreListResponseMessage">
+		<wsdl:part name="parameter" element="tns:getTheatreListResponse"/>
+	</wsdl:message>
+	<wsdl:message name="getTheatreShowListRequestMessage">
+		<wsdl:part name="parameter" element="tns:getTheatreShowListRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getTheatreShowListResponseMessage">
+		<wsdl:part name="parameter" element="tns:getTheatreShowListResponse"/>
+	</wsdl:message>
+	<wsdl:message name="addTheatreShowRequestMessage">
+		<wsdl:part name="parameter" element="tns:addTheatreShowRequest"/>
+	</wsdl:message>
+	<wsdl:message name="addTheatreShowResponseMessage">
+		<wsdl:part name="parameter" element="tns:addTheatreShowResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="TheatrePortType">
+		<wsdl:operation name="getShow">
+			<wsdl:input message="tns:getShowRequestMessage"/>
+			<wsdl:output message="tns:getShowResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="addShow">
+			<wsdl:input message="tns:addShowRequestMessage"/>
+			<wsdl:output message="tns:addShowResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="getShowList">
+			<wsdl:input message="tns:getShowListRequestMessage"/>
+			<wsdl:output message="tns:getShowListResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="getTheatre">
+			<wsdl:input message="tns:getTheatreRequestMessage"/>
+			<wsdl:output message="tns:getTheatreResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="addTheatre">
+			<wsdl:input message="tns:addTheatreRequestMessage"/>
+			<wsdl:output message="tns:addTheatreResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="getTheatreList">
+			<wsdl:input message="tns:getTheatreListRequestMessage"/>
+			<wsdl:output message="tns:getTheatreListResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="getTheatreShowList">
+			<wsdl:input message="tns:getTheatreShowListRequestMessage"/>
+			<wsdl:output message="tns:getTheatreShowListResponseMessage"/>
+		</wsdl:operation>
+		<wsdl:operation name="addTheatreShow">
+			<wsdl:input message="tns:addTheatreShowRequestMessage"/>
+			<wsdl:output message="tns:addTheatreShowResponseMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="TheatreBinding" type="tns:TheatrePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="getShow">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="addShow">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getShowList">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>	
+		<wsdl:operation name="getTheatre">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="addTheatre">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="getTheatreList">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>	
+		<wsdl:operation name="getTheatreShowList">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="addTheatreShow">
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="TheatreService">
+		<wsdl:port name="TheatrePort" binding="tns:TheatreBinding">
+			<soap:address location="Empty"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
